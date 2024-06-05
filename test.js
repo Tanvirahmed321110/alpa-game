@@ -99,6 +99,16 @@ function playNowF() {
     // show section
     hideOrShowSectionF (false,'game-field') 
     
+    
+    // audio add 
+    if (gameOverAudio && !gameOverAudio.paused) {
+        gameOverAudio.pause();
+        gameOverAudio.currentTime = 0; // Reset audio to start
+    }
+    
+    const buttonAudio = new Audio('button.mp3');
+    buttonAudio.play()
+    
     // reset value
     setValueF('score',0)
     setValueF('life',4)
@@ -106,6 +116,8 @@ function playNowF() {
 }
 
 
+
+let gameOverAudio; // Global variable to hold the game over audio object
 // game over 
 function gameOverF(){
     hideOrShowSectionF(true,'game-field')
@@ -114,6 +126,13 @@ function gameOverF(){
     // final score
     const finalScore = getValueF('score')
     setValueF('final-score',finalScore)
+    
+    // Play game over audio
+    if (!gameOverAudio) {
+        gameOverAudio = new Audio('gameover.mp3');
+        gameOverAudio.loop = true; // Set the audio to loop
+    }
+    gameOverAudio.play();
     
     // remove bg
     const current = document.getElementById('display-letter').innerText
